@@ -250,7 +250,7 @@ class Users:
 
     #Returns an existing user by his/her email address.
     def get_user_by_email(self,email):
-        return self.a.send_get('get_user_by_email&email'+str(email))
+        return self.a.send_get('get_user_by_email&email='+str(email))
 
     # Returns a list of users.
     def get_users(self):
@@ -299,6 +299,82 @@ class Plans:
     def delete_plan_entry(self,plan_id,entry_id):
         return self.a.send_post('delete_plan_entry/'+str(plan_id)+'/'+str(entry_id),{})
 
+class Priorities:
+    def __init__(self):
+        self.a = A(C.base_url)
+        self.a.user = C.user
+        self.a.password = C.password
 
+    #Returns a list of available priorities.
+    def get_priorities(self):
+        return self.a.send_get('get_priorities')
 
+class Status:
+    def __init__(self):
+        self.a = A(C.base_url)
+        self.a.user = C.user
+        self.a.password = C.password
 
+    #Returns a list of available test statuses.
+    def get_statuses(self):
+        return self.a.send_get('get_statuses')
+
+class Milestone:
+    def __init__(self):
+        self.a = A(C.base_url)
+        self.a.user = C.user
+        self.a.password = C.password
+
+    #Returns an existing milestone.
+    def get_milestone(self,milestone_id):
+        return self.a.send_get('get_milestone/'+str(milestone_id))
+
+    #Returns the list of milestones for a project.
+    def get_milestones(self,project_id):
+        return self.a.send_get('get_milestones/'+str(project_id))
+
+    #Creates a new milestone.
+    def add_milestone(self,project_id,data):
+        return self.a.send_post('add_milestone/'+str(project_id),data)
+
+    #Updates an existing milestone (partial updates are supported, i.e. you can submit and update specific fields only).
+    def update_milestone(self,milestone_id,data):
+        return self.a.send_post('update_milestone/'+str(milestone_id),data)
+
+    #Deletes an existing milestone.
+    def delete_milestone(self,milestone_id):
+        return self.a.send_post('update_milestone/'+str(milestone_id),{})
+
+class Config:
+    def __init__(self):
+        self.a = A(C.base_url)
+        self.a.user = C.user
+        self.a.password = C.password
+
+    #Returns a list of available configurations, grouped by configuration groups (requires TestRail 3.1 or later).
+    def get_configs(self,project_id):
+        return self.a.send_get('get_configs/'+str(project_id))
+
+    #Creates a new configuration group.
+    def add_config_group(self,project_id,data):
+        return self.a.send_post('add_config_group/'+str(project_id),data)
+
+    #Creates a new configuration.
+    def add_config(self,config_group_id,data):
+        return self.a.send_post('add_config/'+str(config_group_id),data)
+
+    #Updates an existing configuration group.
+    def update_config_group(self,config_group_id,data):
+        return self.a.send_post('update_config_group/'+str(config_group_id),data)
+
+    #Updates an existing configuration.
+    def update_config(self,config_id,data):
+        return self.a.send_post('update_config/'+str(config_id),data)
+
+    #Deletes an existing configuration group and its configurations.
+    def delete_config_group(self,config_group_id):
+        return self.a.send_post('delete_config_group/'+str(config_group_id),{})
+
+    #Deletes an existing configuration.
+    def delete_config(self,config_id):
+        return self.a.send_post('delete_config/'+str(config_id),{})
